@@ -44,8 +44,13 @@ export async function updateInvoice(id: string, formData: FormData) {
   redirect("/dashboard/invoices");
 }
 export async function deleteInvoice(id: string) {
-  await sql`
-    delete from invoices where id = ${id}
-  `;
-  revalidatePath("/dashboard/invoices");
+  throw new Error("error~~~");
+  try {
+    await sql`
+  delete from invoices where id = ${id}
+`;
+    revalidatePath("/dashboard/invoices");
+  } catch (error) {
+    return { message: "删除失败了" };
+  }
 }
