@@ -18,6 +18,11 @@ const links = [
     href: "/dashboard/invoices",
     icon: DocumentDuplicateIcon,
   },
+  {
+    name: "flow",
+    href: "/dashboard/flow",
+    icon: DocumentDuplicateIcon,
+  },
   { name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
 ];
 
