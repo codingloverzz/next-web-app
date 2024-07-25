@@ -1,67 +1,13 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import { Graph, Node } from "@antv/x6";
-// import { register } from "@antv/x6-react-shape";
-const data = {
-  nodes: [
-    {
-      //   id: "123123",
-      shape: "circle",
-      x: 40,
-      y: 40,
-      width: 100,
-      height: 40,
-      label: "hello",
-      attrs: {
-        // body 是选择器名称，选中的是 rect 元素
-        body: {
-          stroke: "#8f8f8f",
-          strokeWidth: 1,
-          fill: "#fff",
-          rx: 6,
-          ry: 6,
-        },
-      },
-    },
-    {
-      //   id: "node2",
-      shape: "rect",
-      x: 160,
-      y: 180,
-      width: 100,
-      height: 40,
-      label: "world",
-      attrs: {
-        body: {
-          stroke: "#8f8f8f",
-          strokeWidth: 1,
-          fill: "#fff",
-          rx: 6,
-          ry: 6,
-        },
-      },
-    },
-  ],
-  //   edges: [
-  //     {
-  //       shape: "edge",
-  //       source: "node1",
-  //       target: "node2",
-  //       label: "x6",
-  //       attrs: {
-  //         // line 是选择器名称，选中的边的 path 元素
-  //         line: {
-  //           stroke: "#8f8f8f",
-  //           strokeWidth: 1,
-  //         },
-  //       },
-  //     },
-  //   ],
-};
+import { Button, message } from "antd";
+import { FlowType } from "@/app/lib/types/flow";
+import { updateFlowInfo } from "@/app/lib/server-action/flow";
 
-export default function Chart() {
+export default function Chart({ flowInfo }: { flowInfo: FlowType }) {
   const ref = useRef<HTMLDivElement>(null);
-
+  const graphRef = useRef<Graph>();
   useEffect(() => {
     const graph = new Graph({
       container: ref.current!,
@@ -77,7 +23,7 @@ export default function Chart() {
         color: "#F2F7FA",
       },
     });
-    graph.fromJSON(data);
+    graph.fromJSON(flowInfo.data as Object);
     graph.centerContent(); // 居中显示
     graph.addNode({
       id: "953b18d6-7c1c-43cd-883f-00acca01bbc1",
@@ -96,11 +42,27 @@ export default function Chart() {
       width: 100,
       height: 40,
     });
-
-    console.log(graph.toJSON(), "graph.toJSON()");
-
+    graphRef.current = graph;
+    return () => {
+      //为什么节点移动有问题，因为开发环境useEffect执行了两次
+      graph.dispose();
+    };
     // 渲染元素
-  }, []);
+  }, [flowInfo]);
 
-  return <div id="container" ref={ref}></div>;
+  const handleSave = async () => {
+    const newData = graphRef.current?.toJSON();
+    const newFlowInfo = {
+      ...flowInfo,
+      data: JSON.stringify(newData),
+    };
+    await updateFlowInfo(flowInfo.id, newFlowInfo);
+    message.success("save success !!!");
+  };
+  return (
+    <>
+      <Button onClick={handleSave}>save</Button>
+      <div id="container" ref={ref}></div>
+    </>
+  );
 }
