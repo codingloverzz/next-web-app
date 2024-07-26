@@ -1,9 +1,5 @@
-import { Button } from "antd";
 import Chart from "./chart";
-import {
-  fetchFlowInfoById,
-  updateFlowInfo,
-} from "@/app/lib/server-action/flow";
+import { fetchFlowInfoById } from "@/app/lib/server-action/flow";
 export default async function ChartContainer({
   versionId,
 }: {
@@ -11,7 +7,7 @@ export default async function ChartContainer({
 }) {
   const res = await fetchFlowInfoById(versionId);
   return (
-    <div>
+    <div className="flex-grow">
       <Chart flowInfo={res} />
     </div>
   );

@@ -13,12 +13,11 @@ export default function NavLinks() {
   const currentVersion = searchParams.get("version");
   useEffect(() => {
     MyRequest<VersionType[]>("/api/flow").then((res) => {
-      console.log(res, "res?");
       setVersionList(res);
     });
   }, []);
   return (
-    <div className="w-[200px]">
+    <div className="w-[120px] mt-[40px]">
       {versionList.map((link) => {
         return (
           <Link
