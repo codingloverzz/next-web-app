@@ -6,9 +6,9 @@ import { sql } from "@vercel/postgres";
 import type { User } from "@/app/lib/definitions";
 import bcrypt from "bcrypt";
 
-async function getUser(email: string): Promise<User | undefined> {
+async function getUser(account: string): Promise<User | undefined> {
   try {
-    const user = await sql<User>`SELECT * FROM users WHERE email=${email}`;
+    const user = await sql<User>`SELECT * FROM users WHERE account=${account}`;
     return user.rows[0];
   } catch (error) {
     console.error("Failed to fetch user:", error);
@@ -20,8 +20,8 @@ export const { auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       async authorize(credentials: any) {
-        const { email, password } = credentials;
-        const user = await getUser(email);
+        const { account, password } = credentials;
+        const user = await getUser(account);
         if (!user) return null;
         const passwordsMatch = await bcrypt.compare(password, user.password);
 
