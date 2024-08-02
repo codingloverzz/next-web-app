@@ -19,6 +19,11 @@ const links = [
     icon: DocumentDuplicateIcon,
   },
   {
+    name: "todos",
+    href: "/dashboard/todos",
+    icon: DocumentDuplicateIcon,
+  },
+  {
     name: "flow",
     href: "/dashboard/flow",
     icon: DocumentDuplicateIcon,
