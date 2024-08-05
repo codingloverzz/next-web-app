@@ -2,6 +2,7 @@
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import dayjs from "dayjs";
+import { DATE_TIME } from "@/constant/date";
 export async function updateTodo(id: string, status: number, title: string) {
   try {
     await sql`
@@ -15,12 +16,12 @@ export async function updateTodo(id: string, status: number, title: string) {
 }
 
 export async function addTodo(title: string) {
-  console.log(dayjs().format("YYYY-MM-DD hh:mm:ss"), "dayjs");
+  console.log(dayjs().format(DATE_TIME), "dayjs");
 
   try {
     await sql`
           insert into todos (status,title,createTime,userId)
-          values(1,${title},${dayjs().format("YYYY-MM-DD hh:mm:ss")},1)
+          values(1,${title},${dayjs().format(DATE_TIME)},1)
          `;
     revalidatePath("/dashboard/todos");
   } catch (error) {

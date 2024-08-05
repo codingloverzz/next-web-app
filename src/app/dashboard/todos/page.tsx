@@ -5,7 +5,7 @@ import { sql } from "@vercel/postgres";
 async function fetchTodos() {
   try {
     const res = await sql`
-    select * from todos order by createtime desc  
+    select * from todos order by createtime asc  
  `;
     return res.rows;
   } catch (error) {
