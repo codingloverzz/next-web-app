@@ -2,20 +2,18 @@ import InputTodo from "@/app/ui/todos/inputTodo";
 import TodoItem from "@/app/ui/todos/todoItem";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
-
 async function fetchTodos() {
   try {
-    // revalidatePath("/dashboard/todos");
-
     const res = await sql`
     select * from todos order by createtime asc  
  `;
     return res.rows;
   } catch (error) {
     throw new Error("fetchTodos error");
+  } finally {
+    revalidatePath("/dashboard/todos");
   }
 }
-
 export default async function page() {
   const todos = await fetchTodos();
   console.log(todos);
