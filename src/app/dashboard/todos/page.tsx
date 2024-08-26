@@ -2,7 +2,9 @@ import InputTodo from "@/app/ui/todos/inputTodo";
 import TodoItem from "@/app/ui/todos/todoItem";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
 async function fetchTodos() {
+  console.log(cookies());
   try {
     const res = await sql`
     select * from todos order by createtime asc  
@@ -10,8 +12,6 @@ async function fetchTodos() {
     return res.rows;
   } catch (error) {
     throw new Error("fetchTodos error");
-  } finally {
-    revalidatePath("/dashboard/todos");
   }
 }
 export default async function page() {
