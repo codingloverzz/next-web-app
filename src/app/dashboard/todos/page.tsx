@@ -5,7 +5,8 @@ import { revalidatePath } from "next/cache";
 
 async function fetchTodos() {
   try {
-    revalidatePath("/dashboard/todos");
+    // revalidatePath("/dashboard/todos");
+
     const res = await sql`
     select * from todos order by createtime asc  
  `;
