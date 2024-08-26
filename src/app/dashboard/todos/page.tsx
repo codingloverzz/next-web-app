@@ -26,3 +26,9 @@ export default async function page() {
     </div>
   );
 }
+export async function getStaticProps() {
+  return {
+    props: {},
+    revalidate: 1, // 设置为较小的值，例如 1 秒，表示每隔 1 秒重新验证数据
+  };
+}
