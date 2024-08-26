@@ -1,9 +1,11 @@
 import InputTodo from "@/app/ui/todos/inputTodo";
 import TodoItem from "@/app/ui/todos/todoItem";
 import { sql } from "@vercel/postgres";
+import { revalidatePath } from "next/cache";
 
 async function fetchTodos() {
   try {
+    revalidatePath("/dashboard/todos");
     const res = await sql`
     select * from todos order by createtime asc  
  `;
@@ -25,10 +27,4 @@ export default async function page() {
       ))}
     </div>
   );
-}
-export async function getStaticProps() {
-  return {
-    props: {},
-    revalidate: 1, // 设置为较小的值，例如 1 秒，表示每隔 1 秒重新验证数据
-  };
 }
