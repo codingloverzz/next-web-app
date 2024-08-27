@@ -1,25 +1,32 @@
 "use client";
-import { useState, useDeferredValue } from "react";
+import { useState, useDeferredValue, useEffect } from "react";
+import { Marked } from "marked";
+import { markedHighlight } from "marked-highlight";
+import hljs from "highlight.js";
 
+const marked = new Marked(
+  markedHighlight({
+    langPrefix: "hljs language-",
+    highlight(code, lang, info) {
+      const language = hljs.getLanguage(lang) ? lang : "plaintext";
+      console.log(code, language, "code", "language");
+
+      return hljs.highlight(code, { language }).value;
+    },
+  })
+);
 export default function MyComponent() {
-  const [inputValue, setInputValue] = useState("");
-  const deferredValue = useDeferredValue(inputValue);
-
-  return (
-    <div>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-      />
-      <p>即时值: {inputValue}</p>
-      <Items value={deferredValue}/>
-    </div>
-  );
-}
-
-function Items({value}:any){
-    let start = performance.now();
-  while (performance.now() - start < 1000) {}
-  return <div>{value}</div>
+  const [htmlText, setHtmlText] = useState("");
+  useEffect(() => {
+    fetch("/api/blog")
+      .then((res) => res.blob())
+      .then((res) => {
+        const fileReader = new FileReader();
+        fileReader.readAsText(res, "utf-8");
+        fileReader.onload = (e) => {
+          setHtmlText(marked.parse(e.target?.result as string) as any);
+        };
+      });
+  }, []);
+  return <div dangerouslySetInnerHTML={{ __html: htmlText }}></div>;
 }
