@@ -1,10 +1,9 @@
 import InputTodo from "@/app/ui/todos/inputTodo";
 import TodoItem from "@/app/ui/todos/todoItem";
 import { sql } from "@vercel/postgres";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 async function fetchTodos() {
-  console.log(cookies());
+  console.log(cookies()); //通过读取cookies把这个方法变成dynamic function
   try {
     const res = await sql`
     select * from todos order by createtime asc  
