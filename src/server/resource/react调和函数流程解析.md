@@ -79,7 +79,7 @@ function App(){
 
 - current : 当前渲染在页面上的fiber节点，此处就是**App对应的fiber**
 - workInProgress : 当前正在协调的fiber节点，此处是**App对应的新的fiber**，current和workInProgress的关系请**参考react双缓冲**
-- nextChildren ：此处为App方法执行后获得的reactElement对象![image-20240709151806574](/Users/zhu/Library/Application Support/typora-user-images/image-20240709151806574.png)、
+- nextChildren ：此处为App方法执行后获得的reactElement对象![image-20240709151806574](/images/image-20240709151806574.png)、
 - renderLanes ： 优先级相关，本文省略
 
 
@@ -186,7 +186,7 @@ function reconcileChildFibers(
 
 例如如下情况
 
-![image-20240709160118185](/Users/zhu/Library/Application Support/typora-user-images/image-20240709160118185.png)
+![image-20240709160118185](/images/1.png)
 
 ​	这种情况说明元素的节点类型发生了变化，p---->div，直接调用**deleteRemainingChildren(returnFiber, child)**，删除旧的p fiber及它后面的所有fiber (删除旧的p fiber 和div fiber)，跳出循环，执行创建fiber的代码，此时就不会进入复用逻辑，
 
@@ -197,7 +197,7 @@ created.return = returnFiber;
 
 ​	2. key不同
 
-​		![image-20240709161000123](/Users/zhu/Library/Application Support/typora-user-images/image-20240709161000123.png)
+​		![image-20240709161000123](/images/image-20240709161000123.png)
 
 ​	执行**deleteChild(returnFiber, child)**，此处就是删除**key为1**的div fiber , 然后执行**child = child.sibling**，此时child变成**key为3**的div fiber, 再次执行循环体
 
