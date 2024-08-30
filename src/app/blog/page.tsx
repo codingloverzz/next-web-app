@@ -1,6 +1,6 @@
 import { getBlogList } from "@/app/lib/data/blog";
-import FileDetail from "@/app/ui/blog/FileDetail";
-import FileTree from "@/app/ui/blog/FileTree";
+import FileDetail from "./components/FileDetail";
+import FileTree from "./components/FileTree";
 
 export default async function page({
   searchParams,
@@ -12,7 +12,7 @@ export default async function page({
   const res = await getBlogList();
   return (
     <div className="flex h-full">
-      <div className="w-1/4 h-full  shrink-0">
+      <div className="w-1/6 h-full  shrink-0">
         <FileTree treeData={res} />
       </div>
       <div className="h-full overflow-auto">
