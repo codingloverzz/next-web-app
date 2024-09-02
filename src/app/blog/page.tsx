@@ -11,11 +11,11 @@ export default async function page({
 }) {
   const res = await getBlogList();
   return (
-    <div className="flex h-full">
+    <div className="flex h-full w-full overflow-hidden">
       <div className="w-1/6 h-full  shrink-0">
         <FileTree treeData={res} />
       </div>
-      <div className="h-full overflow-auto">
+      <div className="h-full flex-1 overflow-hidden">
         <FileDetail filePath={searchParams.file} />
       </div>
     </div>

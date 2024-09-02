@@ -12,6 +12,12 @@ export default function FileTree({ treeData }: { treeData: TreeDataNode[] }) {
   const router = useRouter();
   return (
     <Tree.DirectoryTree
+      blockNode
+      rootStyle={{
+        height: "100%",
+        width: "100%",
+        overflow: "auto",
+      }}
       selectedKeys={[currentFile]}
       treeData={treeData}
       fieldNames={{
