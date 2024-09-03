@@ -10,6 +10,7 @@ export default async function page({
   };
 }) {
   const res = await getBlogList();
+  // debugger;
   return (
     <div className="flex h-full w-full overflow-hidden">
       <div className="w-1/6 h-full  shrink-0">

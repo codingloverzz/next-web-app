@@ -2,6 +2,8 @@
 import { NextResponse } from "next/server";
 import * as fs from "node:fs";
 import path from "node:path";
+import CryptoJS from "crypto-js";
+import { CRYPTO_IV, CRYPTO_KEY, CRYPTO_MODE } from "@/constant/crypto";
 
 export async function getBlogList() {
   const filePath = "src/server/resource";
@@ -13,19 +15,28 @@ export async function getBlogList() {
         withFileTypes: true,
       });
       for (const f of files) {
+        const cryptoPath = CryptoJS.AES.encrypt(
+          f.parentPath + "/" + f.name,
+          CRYPTO_KEY,
+          {
+            iv: CRYPTO_IV,
+          }
+        ).toString();
         if (f.isDirectory()) {
           //文件夹
           const children = await await traverseDir(filePath + "/" + f.name);
           fileList.push({
+            o: f.parentPath + "/" + f.name,
             name: f.name,
-            path: f.parentPath + "/" + f.name,
+            path: encodeURIComponent(cryptoPath),
             children,
           });
         } else {
           //文件
           fileList.push({
+            o: f.parentPath + "/" + f.name,
             name: f.name,
-            path: f.parentPath + "/" + f.name,
+            path: encodeURIComponent(cryptoPath),
           });
         }
       }
