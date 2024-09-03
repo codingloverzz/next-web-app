@@ -18,7 +18,7 @@ export default function Toc({
           <div
             key={item.id}
             onClick={() => onTocClick(item)}
-            className={clsx(paddingLevel, "cursor-pointer")}
+            className={clsx(paddingLevel, "cursor-pointer", "font-bold")}
           >
             {item.title}
           </div>

@@ -26,7 +26,7 @@ export async function getBlogList() {
           //文件夹
           const children = await await traverseDir(filePath + "/" + f.name);
           fileList.push({
-            o: f.parentPath + "/" + f.name,
+            parentPath: f.parentPath,
             name: f.name,
             path: encodeURIComponent(cryptoPath),
             children,
@@ -34,7 +34,7 @@ export async function getBlogList() {
         } else {
           //文件
           fileList.push({
-            o: f.parentPath + "/" + f.name,
+            parentPath: f.parentPath,
             name: f.name,
             path: encodeURIComponent(cryptoPath),
           });
