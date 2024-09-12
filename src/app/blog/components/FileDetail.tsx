@@ -13,13 +13,18 @@ const marked = new Marked(
     langPrefix: "hljs language-",
     highlight(code, lang, info) {
       const language = hljs.getLanguage(lang) ? lang : "plaintext";
-      return hljs.highlight(code, { language }).value;
+      const res = hljs.highlight(code, { language }).value;
+      const res2 = res
+        .split("\n")
+        .map((s, i) => `<div class="code-line" data-line=${i + 1}>${s}</div>`)
+        .join("");
+      return res2;
     },
   })
 );
 const renderer = new marked.Renderer();
 renderer.heading = function ({ depth, tokens }) {
-  // 生成唯一的 ID，可以使用标题文本生成哈希值或者简单的计数器
+  // 生成唯一的 ID
   const id = `heading-${Math.random().toString(36).substr(2, 9)}`;
   return `<h${depth} id=${id}>${tokens[0].raw}</h${depth}>`;
 };
@@ -48,6 +53,7 @@ export default function FileDetail({ filePath }: { filePath: string }) {
             const markedStr = marked.parse(result as string, {
               renderer,
             }) as string;
+
             const regex = /<h([1-6]).* id=(.*)>(.*?)<\/h[1-6]>/g;
             const toc: any = [];
             let match;

@@ -13,12 +13,12 @@ export default function Toc({
   return (
     <div>
       {data.map((item) => {
-        const paddingLevel = `pl-${(item.level - 1) * 2.5}`;
+        const paddingLevel = `pl-${(item.level - 1) * 1.5}`;
         return (
           <div
             key={item.id}
             onClick={() => onTocClick(item)}
-            className={clsx(paddingLevel, "cursor-pointer", "font-bold")}
+            className={clsx(paddingLevel, "cursor-pointer", "hover:underline")}
           >
             {item.title}
           </div>
