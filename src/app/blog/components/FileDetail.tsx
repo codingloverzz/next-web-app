@@ -7,6 +7,8 @@ import { notFound } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import Toc from "./Toc";
 import { IToc } from "@/app/lib/types/Blog";
+import { Button } from "antd";
+import { useRouter } from "next/navigation";
 
 const marked = new Marked(
   markedHighlight({
@@ -34,6 +36,8 @@ export default function FileDetail({ filePath }: { filePath: string }) {
   const [toc, setToc] = useState<IToc[]>([]);
   const [activeToc, setActiveToc] = useState<IToc>();
   const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
   useEffect(() => {
     if (filePath) {
       fetch("/api/blog?file=" + filePath)
@@ -74,9 +78,11 @@ export default function FileDetail({ filePath }: { filePath: string }) {
       setHtmlText("");
     }
   }, [filePath]);
-  useEffect(() => {
-    console.log(mdRef.current, "看看呢");
-  }, [htmlText]);
+
+  const goEdit = () => {
+    router.push("/blog/edit?file=" + filePath);
+  };
+
   const handleTocClick = (e: IToc) => {
     document.getElementById(e.id)?.scrollIntoView({
       behavior: "smooth",
@@ -92,11 +98,18 @@ export default function FileDetail({ filePath }: { filePath: string }) {
           <div className="w-1/5 shrink-0 h-full overflow-auto">
             <Toc data={toc} onTocClick={handleTocClick} />
           </div>
-          <div
-            ref={mdRef}
-            className="overflow-auto h-full"
-            dangerouslySetInnerHTML={{ __html: htmlText! }}
-          ></div>
+          <div className="h-full">
+            <div>
+              <Button type="link" onClick={goEdit}>
+                编辑
+              </Button>
+            </div>
+            <div
+              ref={mdRef}
+              className="overflow-auto h-full"
+              dangerouslySetInnerHTML={{ __html: htmlText! }}
+            ></div>
+          </div>
         </div>
       )}
     </div>

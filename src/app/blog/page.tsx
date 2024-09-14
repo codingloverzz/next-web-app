@@ -1,7 +1,6 @@
 import { getBlogList } from "@/app/lib/data/blog";
 import FileDetail from "./components/FileDetail";
 import FileTree from "./components/FileTree";
-import Test from "./components/Test";
 export default async function page({
   searchParams,
 }: {
@@ -13,13 +12,12 @@ export default async function page({
   // debugger;
   return (
     <div className="flex h-full w-full overflow-hidden">
-      {/* <div className="w-1/6 h-full  shrink-0">
+      <div className="w-1/6 h-full  shrink-0">
         <FileTree treeData={res} />
       </div>
       <div className="h-full flex-1 overflow-hidden">
         <FileDetail filePath={searchParams.file} />
-      </div> */}
-      <Test />
+      </div>
     </div>
   );
 }
