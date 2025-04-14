@@ -4,6 +4,7 @@ import "highlight.js/styles/github.css";
 import "bytemd/dist/index.css";
 
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ThemeProvider } from "@/theme/ThemeProvider";
 
 export default function RootLayout({
   children,
@@ -11,9 +12,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
-        <AntdRegistry>{children}</AntdRegistry>
+        <AntdRegistry>
+          <ThemeProvider>{children}</ThemeProvider>
+        </AntdRegistry>
       </body>
     </html>
   );
