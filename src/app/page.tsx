@@ -1,14 +1,17 @@
-// import AcmeLogo from "@/app/ui/acme-logo";
-// import { ArrowRightIcon } from "@heroicons/react/24/outline";
-// import Image from "next/image";
-// import Link from "next/link";
-import dbConnect from "@/db";
-import { Input } from "antd";
+import SideBar from "./components/page/note/SideBar";
+import "./globals.css";
+import { getNotes } from "./actions/Note";
+import { getCategories } from "./actions/Category";
+import { getTags } from "./actions/Tag";
 export default async function Page() {
-  await dbConnect();
+  const [notes, categories, tags] = await Promise.all([
+    getNotes(),
+    getCategories(),
+    getTags(),
+  ]);
   return (
-    <div>
-      <Input />
-    </div>
+    <>
+      <SideBar notes={notes} categories={categories} tags={tags} />
+    </>
   );
 }
